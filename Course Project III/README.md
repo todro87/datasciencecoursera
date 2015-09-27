@@ -1,0 +1,2 @@
+How the script works
+===========
