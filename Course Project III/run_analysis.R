@@ -1,4 +1,4 @@
-################################################################################
+################################ STEP 1 ########################################
 ############################### LIBRARIES ######################################
 
 # load dplyr and tidyr to manipulate data
@@ -6,7 +6,7 @@ library(dplyr)
 library(tidyr)
 
 
-################################################################################
+################################ STEP 2 ########################################
 ############################## MAIN DIRECTORY ##################################
 
 # reads features
@@ -34,7 +34,7 @@ names(features) <- c("featureID", "featureName")
 names(activities_info) <- c("activityID", "activityName")
 
 
-################################################################################
+################################# STEP 3 #######################################
 ############################# TEST DIRECTORY ###################################
 
 # reads subject_test - a file where people who performed activities are listed
@@ -59,7 +59,7 @@ names(activities_test) <- "activityID"
 names(signals_test) <- features[,2]
 
 
-################################################################################
+################################ STEP 4 ########################################
 ############################# TRAIN DIRECTORY ##################################
 
 # reads subject_train - a file where people who performed activities are listed
@@ -84,7 +84,7 @@ names(activities_train) <- "activityID"
 names(signals_train) <- features[,2]
 
 
-################################################################################
+############################# STEP 5 ###########################################
 # converts all data frames to tbl_df object from dplyr package
 
 features_tbldf <- tbl_df(features)
@@ -98,7 +98,7 @@ subject_train_tbldf <- tbl_df(subject_train)
 activities_train_tbldf <- tbl_df(activities_train)
 signals_train_tbldf <- tbl_df(signals_train)
 
-################################################################################
+############################## STEP 6 ##########################################
 # removes all data frames from memory
 rm("features")
 rm("activities_info")
@@ -109,7 +109,7 @@ rm("subject_train")
 rm("activities_train")
 rm("signals_train")
 
-################################################################################
+############################## STEP 7 ##########################################
 # merging
 
 #merges test and train signals
@@ -124,6 +124,8 @@ activities_tbldf <- tbl_df(merge(activities_info_tbldf, activities_tbldf))
 # merges test and train subjects
 subject_tbldf <- bind_rows(subject_test_tbldf, subject_train_tbldf)
 
+
+########################### STEP 8 #############################################
 # selects mean values of signals
 signals_mean_tbldf <- select(signals_tbldf, contains("mean"))
 
@@ -139,6 +141,8 @@ data <- select(data, -activityID)
 # checks activities performed by subjects
 data %>% select(subjectID, activityName) %>% spread(activityName, subjectID) %>% unique()
 
+
+########################### STEP 9 #############################################
 # reorders data so that the names of features are no more columns but variavles
 data_reordered <- gather(data, feature, value, tBodyAccmeanX_1:fBodyBodyGyroJerkMagstd_543)
 
@@ -158,5 +162,7 @@ data_means <- select(data_means, -fID)
 # sorts data by subject and activity name
 data_means <- arrange(data_means, subjectID, activityName, feature)
 
+
+########################## STEP 10 #############################################
 # writes data to disk
 write.table(data_means, file = "tidy_data.txt", row.names = FALSE, quote = FALSE)

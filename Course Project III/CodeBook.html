@@ -61,9 +61,70 @@ img {
 
 
 
-<div id="description-of-course-project-iii-repo" class="section level1">
-<h1>Description of Course Project III repo</h1>
-<p>The purpose of this repo is to show that a person involved in Data Science Spacialisation is capable of cleaning data and creating a tidy data set. A script run_analysis.R performs operations on data from Samsung Galaxy S which has been used in an experiment of recognizing activities like walking, sitting, walkin upstairs or downstairs from accelerometer and gyroscope data.</p>
+<div id="how-the-script-run_analysis.r-works" class="section level1">
+<h1>How the script run_analysis.R works</h1>
+<p>The way the script worsk is explained in 10 consecutive steps. Each step is marked in the run_analysis.R file.</p>
+<p>This script work only when the structure of files is as below:</p>
+<p>./activity_labels.txt</p>
+<p>./features.txt</p>
+<p>./test/subject_test.txt</p>
+<p>./test/X_test.txt</p>
+<p>./test/y_test.txt</p>
+<p>./train/subject_train.txt</p>
+<p>./train/X_train.txt</p>
+<p>./train/y_tran.txt</p>
+<p>./run_analysis.R</p>
+<p>Dot sign denotes the working directory</p>
+<div id="step-1" class="section level3">
+<h3>Step 1</h3>
+<p>In this step libraries dplyr and tidyr are loaded. The will be used to manipualte data in order to create tidy data set.</p>
+</div>
+<div id="step-2" class="section level3">
+<h3>Step 2</h3>
+<p>In step two sciprt operates on files in working directory: activity_labels.txt and features.txt. File activity_labels.txt contains names of activities and their ID numbers. In features.txt names of all variables are stored. These variables deonte the names of signals from accelerometer and gyroscope. After reading feature.txt all the alphanumeric charatcers and numbers are removed from names of variables. After that to each variable a unique number is added. This is necessary in order to have unique names of variables.</p>
+<p>In this step script also reads a file with names of acitvities and their IDs. Each column in each object gets a unique name.</p>
+</div>
+<div id="step-3" class="section level3">
+<h3>Step 3</h3>
+<p>In step 3 script read three files: subject_test.txt with IDs of each person who performed an activity, y_test.txt with IDs of each performed activity, X_test.txt with the recorded signals (not raw signals). Each column in each object created in this step gets a unique name. Signals from X_test.txt get names from features object</p>
+</div>
+<div id="step-4" class="section level3">
+<h3>Step 4</h3>
+<p>This step does the same as step 3 but on files from train directory.</p>
+</div>
+<div id="step-5" class="section level3">
+<h3>Step 5</h3>
+<p>In the fifth step all the data frame are converted into tbl_df objects. Now the power of dplyr and tidyr can be revealed!</p>
+</div>
+<div id="step-6" class="section level3">
+<h3>Step 6</h3>
+<p>Data frames are removed to free the memory. This way it is also easier to use the auto completion in RStudio.</p>
+</div>
+<div id="step-7" class="section level3">
+<h3>Step 7</h3>
+<p>In step 7 test and train objects are merged. Also the object with a list of performed activities is merged with the object with names of activities and their IDs.</p>
+</div>
+<div id="step-8" class="section level3">
+<h3>Step 8</h3>
+<p>In this step only the means and standrad deviations of signals are selected. Object with means and standard deviations is merged with performed activities and subjects who have been performing activities. I have also checked if every person in the experiment has beedn performing every activity. It seems that people have been divided into groups performing different activities.</p>
+</div>
+<div id="step-9" class="section level3">
+<h3>Step 9</h3>
+<p>Now data is reorded so that features with variable names are no longer columns but rows. Reordered data is grouped by subject, activity and variable. From that moment it is possible to calculate means of each variable for each subject and activity. To have data which look much nicer from each variable name a unique number is removed by sepataion of string and number. Now the column with numbers is just dropped. Last operation in this step sorts data by subject and activity name.</p>
+</div>
+<div id="step-10" class="section level3">
+<h3>Step 10</h3>
+<p>In the final step data is exported to a file tidy_data.txt in working directory.</p>
+</div>
+<div id="names-of-variables-in-tidy_data.txt" class="section level3">
+<h3>Names of variables in tidy_data.txt</h3>
+<ul>
+<li>subjectID - this column contains IDs of each person who performed activity</li>
+<li>activityName - this column contains descriptive names of performed activities</li>
+<li>feature - this column contains descriptive names of signals</li>
+<li>meanValue - this column contains mean values of signals</li>
+</ul>
+</div>
 </div>
 
 
